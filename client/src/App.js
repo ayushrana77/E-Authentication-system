@@ -1,12 +1,15 @@
 import {Routes,Route} from 'react-router-dom';
 import './App.css';
-import Home from './components/Home';
-import Login from './components/Login';
-import Register from './components/Register';
+import Header from './components/Header/header';
+import Home from './components/Home/home'
+import Login from './components/Login/login';
+import Register from './components/Register/register';
+
 
 function App() {
   return (
     <div>
+      <Header/>
       <Routes>
         <Route path='/' element={<Home/>} />
         <Route path='/login' element={<Login/>}/>
