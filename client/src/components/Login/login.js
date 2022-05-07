@@ -1,7 +1,36 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function Login() {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const navigate = useNavigate();
+
+  const setData = async (e) => {
+    e.preventDefault();
+
+    const res = await fetch("/adminLogin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        // "email":email,
+        // "password":password
+        email,
+        password,
+      }),
+    });
+    const data = await res.json();
+
+    if (res.status === 201) {
+      localStorage.setItem("token", data.token);
+      window.alert("Login Successful");
+      navigate("/");
+    } else {
+      window.alert("Invalid Credentials");
+    }
+  };
   return (
     <div className="container mt-5">
       <div className="row">
@@ -18,6 +47,8 @@ function Login() {
                 name="email"
                 aria-describedby="emailHelp"
                 placeholder="Enter the Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="mb-3">
@@ -30,12 +61,20 @@ function Login() {
                 id="password"
                 name="password"
                 placeholder="Enter the Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <NavLink to="/register">Didn't register! register here</NavLink>
             <br />
             <br />
-            <button type="submit" className="btn btn-primary">
+            <button
+              type="submit"
+              className="btn btn-primary"
+              id="login"
+              name="login"
+              onClick={setData}
+            >
               Submit
             </button>
           </form>

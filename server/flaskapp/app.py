@@ -48,7 +48,7 @@ def adminRegister():
 
     allusers.insert_one({
         'email':request.json['email'],
-        'name':request.json['name'],
+        'name':request.json['Name'],
         'phone':request.json['phone'],
         'password':hashpw,
         'cpassword':hashcpw,
@@ -57,7 +57,7 @@ def adminRegister():
         }]
     })
 
-    return jsonify(token = str(access_token)),200
+    return jsonify(token = str(access_token)),201
 
 @app.route("/adminLogin",methods=['POST'])
 def adminLogin():
