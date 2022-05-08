@@ -4,6 +4,9 @@ import bcrypt
 import jwt
 from flask_jwt_extended import JWTManager, create_access_token
 from flask_cors import CORS,cross_origin
+from gotp import gotp
+
+o1 = gotp()
 
 app = Flask(__name__)
 jwt = JWTManager(app)
@@ -45,7 +48,7 @@ def adminRegister():
     )
 
     access_token = create_access_token(identity=request.json['email'])
-
+    o1.getotp(request.json['email'],True)
     allusers.insert_one({
         'email':request.json['email'],
         'name':request.json['Name'],
@@ -57,6 +60,7 @@ def adminRegister():
             'token':str(access_token)
         }]
     })
+    
     return jsonify(token = str(access_token)),201
 
 @app.route("/adminLogin",methods=['POST'])
@@ -94,7 +98,7 @@ def otp():
     allusers = mongo.db.admins
     user = allusers.find_one({'tokens.token':request.json['token']})
     if user:
-        if (user['auth'] == False) and request.json['otp'] == '123456':
+        if (user['auth'] == False) and request.json['otp'] == str(o1.getotp(user['email'],False)):
             allusers.update_one(
                 {'tokens.token':request.json['token']},
                 {"$set":{'auth':True}}
