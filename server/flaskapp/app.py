@@ -52,20 +52,20 @@ def adminRegister():
         'phone':request.json['phone'],
         'password':hashpw,
         'cpassword':hashcpw,
+        'auth':False,
         'tokens':[{
             'token':str(access_token)
         }]
     })
-
     return jsonify(token = str(access_token)),201
 
 @app.route("/adminLogin",methods=['POST'])
 def adminLogin():
     allusers = mongo.db.admins
     user = allusers.find_one({'email':request.json['email']})
-
+    
     if user:
-        if bcrypt.hashpw(request.json['password'].encode('utf-8'),user['password']) == user['password']:
+        if bcrypt.hashpw(request.json['password'].encode('utf-8'),user['password']) == user['password'] and user['auth']:
             access_token = create_access_token(identity=request.json['email'])
             t = user['tokens']
             t.append({'token':str(access_token)})
@@ -79,16 +79,28 @@ def adminLogin():
 @app.route("/adminLogout",methods=['POST'])
 def adminLogout():
     allusers = mongo.db.admins
-    user = allusers.find_one({'tokens.token':request.json['auth']})
+    user = allusers.find_one({'tokens.token':request.json['token']})
 
     if user:
         allusers.update_one(
-            {'tokens.token':request.json['auth']},
+            {'tokens.token':request.json['token']},
             {"$set":{'tokens':[]}},
         )
         return jsonify(message='Logout Succesfully'),201
     return jsonify(message='Lougout Failed'),401
 
+@app.route('/otp',methods=['POST'])
+def otp():
+    allusers = mongo.db.admins
+    user = allusers.find_one({'tokens.token':request.json['token']})
+    if user:
+        if (user['auth'] == False) and request.json['otp'] == '123456':
+            allusers.update_one(
+                {'tokens.token':request.json['token']},
+                {"$set":{'auth':True}}
+            )
+            return jsonify(message='Register Succesfully'),201
+    return jsonify(message='Register  Failed'),401
 
 if __name__ == '__main__':
     app.run(debug=True)

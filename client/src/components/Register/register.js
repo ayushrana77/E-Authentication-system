@@ -36,12 +36,12 @@ function Register() {
       }),
     });
 
-    const data = await res.json;
+    const data = await res.json();
 
     if (res.status === 201) {
+      console.log(data.token);
       localStorage.setItem("token", data.token);
-      window.alert("Register Successful");
-      navigate("/");
+      navigate("/register/otp");
     } else {
       window.alert("Registertion Failed");
     }

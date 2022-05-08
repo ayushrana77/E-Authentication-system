@@ -5,7 +5,7 @@ import Home from "./components/Home/home";
 import Login from "./components/Login/login";
 import Register from "./components/Register/register";
 import Logout from "./components/Logout/Logout";
-
+import Otp from "./components/Otp/otp";
 function App() {
   return (
     <div>
@@ -15,6 +15,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/logout" element={<Logout />} />
+        <Route path="register/otp" element={<Otp />} />
       </Routes>
     </div>
   );

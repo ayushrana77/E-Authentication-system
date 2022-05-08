@@ -13,7 +13,7 @@ function Logout() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        auth: token,
+        token,
       }),
     });
     const data = await res.json();
@@ -31,7 +31,7 @@ function Logout() {
 
   useEffect(() => {
     adminLogout();
-  }, []);
+  });
 
   return (
     <div>
