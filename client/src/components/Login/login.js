@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-
+import "./login.css";
 function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -32,7 +32,7 @@ function Login() {
     }
   };
   return (
-    <div className="container mt-5">
+    <div className="container cent mt-5">
       <div className="row">
         <div className="col-sm-6 offset-md-3 offset-sm-1">
           <form>
@@ -42,7 +42,7 @@ function Login() {
               </label>
               <input
                 type="email"
-                className="form-control"
+                className="form-control log"
                 id="email"
                 name="email"
                 aria-describedby="emailHelp"
@@ -57,7 +57,7 @@ function Login() {
               </label>
               <input
                 type="password"
-                className="form-control"
+                className="form-control log"
                 id="password"
                 name="password"
                 placeholder="Enter the Password"
@@ -65,7 +65,9 @@ function Login() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <NavLink to="/register">Didn't register! register here</NavLink>
+            <NavLink className="link" to="/register">
+              Didn't register! register here
+            </NavLink>
             <br />
             <br />
             <button
@@ -75,7 +77,7 @@ function Login() {
               name="login"
               onClick={setData}
             >
-              Submit
+              Login
             </button>
           </form>
         </div>

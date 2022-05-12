@@ -1,0 +1,35 @@
+.cent {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+}
+
+.link {
+  text-decoration: none;
+  color: black;
+}
+.link:hover {
+  text-decoration: none;
+  color: #7e7474;
+}
+
+.log {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid;
+  border-radius: 0%;
+  padding-left: 0;
+  max-width: 500px;
+}
+
+.log:focus {
+  border-radius: 0%;
+  background: transparent;
+  outline: none !important;
+  border: 0px;
+  box-shadow: 0 0;
+  border-bottom: 1px solid;
+  padding-left: 0;
+}

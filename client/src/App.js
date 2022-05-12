@@ -6,6 +6,7 @@ import Login from "./components/Login/login";
 import Register from "./components/Register/register";
 import Logout from "./components/Logout/Logout";
 import Otp from "./components/Otp/otp";
+import Profile from "./components/profile/profile";
 function App() {
   return (
     <div>
@@ -15,6 +16,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/logout" element={<Logout />} />
+        <Route path="/profile" element={<Profile />}></Route>
         <Route path="register/otp" element={<Otp />} />
       </Routes>
     </div>

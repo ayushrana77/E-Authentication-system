@@ -8,7 +8,6 @@ function Otp() {
   const setData = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
-    console.log(token);
     const res = await fetch("/otp", {
       method: "POST",
       headers: {

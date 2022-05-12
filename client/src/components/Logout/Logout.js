@@ -23,10 +23,9 @@ function Logout() {
       await localStorage.removeItem("token", data.token);
       window.alert("Logout Successful");
       navigate("/login", { replace: true });
-    } else {
-      window.alert("Logout Failed");
-      navigate("/");
     }
+    await localStorage.clear();
+    navigate("/login");
   };
 
   useEffect(() => {

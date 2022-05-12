@@ -40,12 +40,17 @@ function Header() {
                     aria-current="page"
                     to="/"
                   >
-                    Home
+                    HOME
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink className="nav-link active" to="/profile">
+                    PROFILE
                   </NavLink>
                 </li>
                 <li className="nav-item">
                   <NavLink className="nav-link" to="/logout">
-                    Logout
+                    LOGOUT
                   </NavLink>
                 </li>
               </>
@@ -53,12 +58,12 @@ function Header() {
               <>
                 <li className="nav-item">
                   <NavLink className="nav-link" to="/register">
-                    Register
+                    REGISTER
                   </NavLink>
                 </li>
                 <li className="nav-item">
                   <NavLink className="nav-link" to="/login">
-                    Login
+                    LOGIN
                   </NavLink>
                 </li>
               </>

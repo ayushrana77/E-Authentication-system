@@ -1,26 +1,43 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-
+import "./register.css";
 function Register() {
   const navigate = useNavigate();
   const [user, setuser] = useState({
-    Name: "",
+    name: "",
     email: "",
     phone: "",
     password: "",
     cpassword: "",
+    sex: "",
+    lname: "",
+    address: "",
+    education: "",
+    age: "",
   });
 
   const handleInput = (e) => {
     let namee = e.target.name;
     let value = e.target.value;
-
+    console.log(namee);
+    console.log(value);
     setuser({ ...user, [namee]: value });
   };
 
   const postData = async (e) => {
     e.preventDefault();
-    const { Name, email, phone, password, cpassword } = user;
+    const {
+      name,
+      email,
+      phone,
+      password,
+      cpassword,
+      sex,
+      lname,
+      address,
+      education,
+      age,
+    } = user;
 
     const res = await fetch("/adminRegister", {
       method: "POST",
@@ -28,11 +45,16 @@ function Register() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        Name,
+        name,
         email,
         phone,
         password,
         cpassword,
+        sex,
+        lname,
+        address,
+        education,
+        age,
       }),
     });
 
@@ -46,97 +68,161 @@ function Register() {
       window.alert("Registertion Failed");
     }
   };
+
   return (
-    <div className="container mt-5">
+    <div className="container rounded bg-white mt-5 mb-5">
       <div className="row">
-        <div className="col-12 col-md-7 col-sn-6">
-          <h1>Welcome</h1>
+        <div className="col-md-4 border-right">
+          <h1 className="wel">Welcome</h1>
         </div>
-        <div className="col-12 col-md-5 col-sn-6">
-          <from method="post">
-            <div className="mb-3">
-              <label htmlFor="Name" class="form-label">
-                Name
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="Name"
-                name="Name"
-                placeholder="Enter your name"
-                value={user.Name}
-                onChange={handleInput}
-              />
+        <div className="col-md-8 border-right">
+          <div className="p-3 py-5">
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <h4 className="text-right">Register Page</h4>
             </div>
-            <div className="mb-3">
-              <label htmlFor="email" class="form-label">
-                Email
-              </label>
-              <input
-                type="email"
-                className="form-control"
-                id="email"
-                name="email"
-                placeholder="Ente r your Email"
-                value={user.email}
-                onChange={handleInput}
-              />
+            <div className="row mt-2">
+              <div className="col-md-6">
+                <label className="labels">Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="First name"
+                  id="name"
+                  name="name"
+                  value={user.name}
+                  onChange={handleInput}
+                />
+              </div>
+              <div className="col-md-6">
+                <label className="labels">Last Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="lnane"
+                  name="lname"
+                  value={user.lname}
+                  onChange={handleInput}
+                  placeholder="Surname"
+                />
+              </div>
             </div>
-            <div className="mb-3">
-              <label htmlFor="phone" class="form-label">
-                Phone Number
-              </label>
-              <input
-                type="tel"
-                className="form-control"
-                id="phone"
-                name="phone"
-                placeholder="Enter your phone Number"
-                value={user.phone}
-                onChange={handleInput}
-              />
+            <div className="row mt-2">
+              <div className="col-md-6">
+                <label className="labels">SEX</label>
+                <select
+                  className="form-control"
+                  id="sex"
+                  name="sex"
+                  value={user.sex}
+                  onChange={handleInput}
+                >
+                  <option value="none">None</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </div>
+              <div className="col-md-6">
+                <label className="labels">Age</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  id="age"
+                  name="age"
+                  value={user.age}
+                  onChange={handleInput}
+                  placeholder="Enter the age"
+                />
+              </div>
             </div>
-            <div className="mb-3">
-              <label htmlFor="password" class="form-label">
-                Password
-              </label>
-              <input
-                type="Password"
-                className="form-control"
-                id="password"
-                name="password"
-                placeholder="Enter your Password"
-                value={user.password}
-                onChange={handleInput}
-              />
+            <div className="row mt-3">
+              <div className="col-md-12">
+                <label className="labels">Mobile Number</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter phone number"
+                  id="phone"
+                  name="phone"
+                  value={user.phone}
+                  onChange={handleInput}
+                />
+              </div>
+              <div className="col-md-12">
+                <label className="labels">Address</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter address"
+                  id="address"
+                  name="address"
+                  value={user.address}
+                  onChange={handleInput}
+                />
+              </div>
+              <div className="col-md-12">
+                <label className="labels">Education</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Education"
+                  id="education"
+                  name="education"
+                  value={user.education}
+                  onChange={handleInput}
+                />
+              </div>
+              <div className="col-md-12">
+                <label className="labels">Email ID</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter email id"
+                  id="email"
+                  name="email"
+                  value={user.email}
+                  onChange={handleInput}
+                />
+              </div>
+              <div className="col-md-12">
+                <label className="labels">Password</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  placeholder="Enter the password"
+                  id="password"
+                  name="password"
+                  value={user.password}
+                  onChange={handleInput}
+                />
+              </div>
+              <div className="col-md-12">
+                <label className="labels">Confirm Password</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  placeholder="Enter password again"
+                  id="cpassword"
+                  name="cpassword"
+                  value={user.cpassword}
+                  onChange={handleInput}
+                />
+              </div>
             </div>
-            <div className="mb-3">
-              <label htmlFor="cpassword" class="form-label">
-                Confrom Password
-              </label>
-              <input
-                type="Password"
-                className="form-control"
-                id="cpassword"
-                name="cpassword"
-                placeholder="Enter Password again"
-                value={user.cpassword}
-                onChange={handleInput}
-              />
-            </div>
-            <NavLink to="/login">Already Register, then login here!</NavLink>
             <br />
+            <NavLink className="link" to="/login">
+              Already register login in here!
+            </NavLink>
             <br />
-            <button
-              type="submit"
-              className="btn btn-primary"
-              id="register"
-              name="register"
-              onClick={postData}
-            >
-              Register
-            </button>
-          </from>
+            <div className="mt-5 text-center">
+              <button
+                className="btn btn-primary profile-button"
+                type="button"
+                onClick={postData}
+              >
+                Register
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

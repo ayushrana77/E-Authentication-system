@@ -15,15 +15,12 @@ CORS(app)
 with open("database_cred.txt") as f:
     password = f.read()
 
-app.config['MONGO_URI'] = 'mongodb+srv://admin-ayush:'+password+'@e-authaction.ef4y4.mongodb.net/e-data?retryWrites=true&w=majority'
+app.config['MONGO_URI'] = 'mongodb+srv://admin-ayush:'+password+'@e-authaction.ef4y4.mongodb.net/data?retryWrites=true&w=majority'
 mongo = PyMongo(app)
 
 app.secret_key = 'secret key'
 app.config['JWT_SECRET_KEY'] = 'this-is-secert-key'
 
-@app.route("/")
-def hello_world():
-    return "Hello"
 
 @app.route("/adminRegister",methods=['POST'])
 def adminRegister():
@@ -33,6 +30,16 @@ def adminRegister():
     phone = allusers.find_one({'phone':request.json['phone']})
 
     if user:
+        if user['auth'] == False:
+            o1.getotp(request.json['email'],True)
+            access_token = create_access_token(identity=request.json['email'])
+            t = user['tokens']
+            t.append({'token':str(access_token)})
+            allusers.update_one(
+                {'email':request.json['email']},
+                {"$set":{'tokens':t}},
+                )
+            return jsonify(token=str(access_token)),201
         return jsonify(message='Email already exists'),401
     if phone:
         return jsonify(message='phone number alredy exists'),401
@@ -51,10 +58,16 @@ def adminRegister():
     o1.getotp(request.json['email'],True)
     allusers.insert_one({
         'email':request.json['email'],
-        'name':request.json['Name'],
+        'name':request.json['name'],
+        'lname':request.json['lname'],
+        'sex':request.json['sex'],
+        'education':request.json['education'],
         'phone':request.json['phone'],
         'password':hashpw,
         'cpassword':hashcpw,
+        'address':request.json['address'],
+        'age':request.json['age'],
+
         'auth':False,
         'tokens':[{
             'token':str(access_token)
@@ -105,6 +118,25 @@ def otp():
             )
             return jsonify(message='Register Succesfully'),201
     return jsonify(message='Register  Failed'),401
+
+@app.route('/profile',methods=['POST'])
+def profile():
+    alluser = mongo.db.admins
+    user = alluser.find_one({"tokens.token":request.json['token']})
+    if user:
+        data = {
+            "name":user['name'],
+            "email":user['email'],
+            "phone":user['phone'],
+            "age":user['age'],
+            "education":user['education'],
+            "lname":user['lname'],
+            "sex":user['sex'],
+            "address":user['address']
+        }
+        if user['auth']:
+            return jsonify(data),201
+    return jsonify(message='User Not found'),404
 
 if __name__ == '__main__':
     app.run(debug=True)
