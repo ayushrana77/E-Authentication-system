@@ -7,7 +7,7 @@ function Logout() {
 
   const adminLogout = async () => {
     const token = localStorage.getItem("token");
-    const res = await fetch("/adminLogout", {
+    const res = await fetch("/api/adminLogout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

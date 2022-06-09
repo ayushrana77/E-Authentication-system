@@ -12,7 +12,7 @@ function Profile() {
 
   const getdata = async () => {
     const token = localStorage.getItem("token");
-    const res = await fetch("/profile", {
+    const res = await fetch("/api/profile", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -22,7 +22,7 @@ app.secret_key = 'secret key'
 app.config['JWT_SECRET_KEY'] = 'this-is-secert-key'
 
 
-@app.route("/adminRegister",methods=['POST'])
+@app.route("/api/adminRegister",methods=['POST'])
 def adminRegister():
     allusers = mongo.db.admins
 
@@ -76,7 +76,7 @@ def adminRegister():
     
     return jsonify(token = str(access_token)),201
 
-@app.route("/adminLogin",methods=['POST'])
+@app.route("/api/adminLogin",methods=['POST'])
 def adminLogin():
     allusers = mongo.db.admins
     user = allusers.find_one({'email':request.json['email']})
@@ -93,7 +93,7 @@ def adminLogin():
             return jsonify(token=str(access_token)),201
     return jsonify(message='Invalid userid/password'),401
 
-@app.route("/adminLogout",methods=['POST'])
+@app.route("/api/adminLogout",methods=['POST'])
 def adminLogout():
     allusers = mongo.db.admins
     user = allusers.find_one({'tokens.token':request.json['token']})
@@ -106,7 +106,7 @@ def adminLogout():
         return jsonify(message='Logout Succesfully'),201
     return jsonify(message='Lougout Failed'),401
 
-@app.route('/otp',methods=['POST'])
+@app.route('/api/otp',methods=['POST'])
 def otp():
     allusers = mongo.db.admins
     user = allusers.find_one({'tokens.token':request.json['token']})
@@ -119,7 +119,7 @@ def otp():
             return jsonify(message='Register Succesfully'),201
     return jsonify(message='Register  Failed'),401
 
-@app.route('/profile',methods=['POST'])
+@app.route('/api/profile',methods=['POST'])
 def profile():
     alluser = mongo.db.admins
     user = alluser.find_one({"tokens.token":request.json['token']})

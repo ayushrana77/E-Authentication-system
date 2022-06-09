@@ -8,7 +8,7 @@ function Otp() {
   const setData = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
-    const res = await fetch("/otp", {
+    const res = await fetch("/api/otp", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -9,7 +9,7 @@ function Login() {
   const setData = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("/adminLogin", {
+    const res = await fetch("/api/adminLogin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

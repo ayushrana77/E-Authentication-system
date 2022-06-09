@@ -39,7 +39,7 @@ function Register() {
       age,
     } = user;
 
-    const res = await fetch("/adminRegister", {
+    const res = await fetch("/api/adminRegister", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
