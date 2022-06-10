@@ -1,12 +1,16 @@
 import smtplib
 import random
+from dotenv import load_dotenv
+import os
 
-with open('email_cred.txt') as f:
-    password = f.read()
+load_dotenv()
+
+
 server = smtplib.SMTP('smtp.gmail.com',587)
 
 server.starttls()
 
+password = os.getenv("EMAIL_PASSWORD","root")
 server.login('ayushranamini2022@gmail.com',password)
 
 class gotp:

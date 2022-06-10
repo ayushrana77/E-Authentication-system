@@ -5,6 +5,10 @@ import jwt
 from flask_jwt_extended import JWTManager, create_access_token
 from flask_cors import CORS,cross_origin
 from gotp import gotp
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 o1 = gotp()
 
@@ -12,9 +16,8 @@ app = Flask(__name__,static_folder="../../client/build",static_url_path='')
 jwt = JWTManager(app)
 CORS(app)
 
-with open("database_cred.txt") as f:
-    password = f.read()
 
+password = os.environ.get("MONGODB_PASSWORD","root")
 app.config['MONGO_URI'] = 'mongodb+srv://admin-ayush:'+password+'@e-authaction.ef4y4.mongodb.net/data?retryWrites=true&w=majority'
 mongo = PyMongo(app)
 
