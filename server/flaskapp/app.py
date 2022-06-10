@@ -1,4 +1,4 @@
-from flask import Flask,jsonify,request,session
+from flask import Flask,jsonify,request,session,send_from_directory
 from flask_pymongo import PyMongo
 import bcrypt
 import jwt
@@ -8,7 +8,7 @@ from gotp import gotp
 
 o1 = gotp()
 
-app = Flask(__name__)
+app = Flask(__name__,static_folder="../../client/build",static_url_path='')
 jwt = JWTManager(app)
 CORS(app)
 
@@ -21,6 +21,9 @@ mongo = PyMongo(app)
 app.secret_key = 'secret key'
 app.config['JWT_SECRET_KEY'] = 'this-is-secert-key'
 
+@app.route('/')
+def serve():
+    return send_from_directory(app.static_folder, 'index.html')
 
 @app.route("/api/adminRegister",methods=['POST'])
 def adminRegister():
