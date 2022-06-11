@@ -2,21 +2,47 @@ from flask import Flask,jsonify,request,session,send_from_directory
 from flask_pymongo import PyMongo
 import bcrypt
 import jwt
+import smtplib
+import random
 from flask_jwt_extended import JWTManager, create_access_token
 from flask_cors import CORS,cross_origin
-from gotp import gotp
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 
+
+# ***********************************Generated OTP *******************************
+
+server = smtplib.SMTP('smtp.gmail.com',587)
+
+server.starttls()
+
+password = os.getenv("EMAIL_PASSWORD")
+server.login('ayushranamini2022@gmail.com',password)
+
+class gotp:
+    def __init__(self):
+        self.num = 0
+
+    def genrate(self,email):
+        self.num = random.randint(100000, 999999)
+        server.sendmail('ayushranamini2022@gmail.com',email,str(self.num))
+        print("Mail send")
+
+    def getotp(self,email,newUser):
+        if newUser:
+            self.genrate(email)
+        return self.num
+
 o1 = gotp()
 
+# *************************************connect Flask app***********************************
 app = Flask(__name__,static_folder="../../client/build",static_url_path='')
 jwt = JWTManager(app)
 CORS(app)
 
-
+# **************************************connect Mogngodb*************************************
 password = os.getenv("MONGODB_PASSWORD")
 app.config['MONGO_URI'] = 'mongodb+srv://admin-ayush:'+password+'@e-authaction.ef4y4.mongodb.net/data?retryWrites=true&w=majority'
 mongo = PyMongo(app)
@@ -24,10 +50,13 @@ mongo = PyMongo(app)
 app.secret_key = 'secret key'
 app.config['JWT_SECRET_KEY'] = 'this-is-secert-key'
 
+# *************************************route for fornt page connect with front-end**********
+
 @app.route('/')
 def serve():
     return send_from_directory(app.static_folder, 'index.html')
 
+# ***************************************route for Register page******************************
 @app.route("/api/adminRegister",methods=['POST'])
 def adminRegister():
     allusers = mongo.db.admins
@@ -82,6 +111,7 @@ def adminRegister():
     
     return jsonify(token = str(access_token)),201
 
+# ***************************************route for Login page******************************
 @app.route("/api/adminLogin",methods=['POST'])
 def adminLogin():
     allusers = mongo.db.admins
@@ -99,6 +129,7 @@ def adminLogin():
             return jsonify(token=str(access_token)),201
     return jsonify(message='Invalid userid/password'),401
 
+# ***************************************route for Logout page******************************
 @app.route("/api/adminLogout",methods=['POST'])
 def adminLogout():
     allusers = mongo.db.admins
@@ -112,6 +143,7 @@ def adminLogout():
         return jsonify(message='Logout Succesfully'),201
     return jsonify(message='Lougout Failed'),401
 
+# ***************************************route for Otp  page******************************
 @app.route('/api/otp',methods=['POST'])
 def otp():
     allusers = mongo.db.admins
@@ -125,6 +157,7 @@ def otp():
             return jsonify(message='Register Succesfully'),201
     return jsonify(message='Register  Failed'),401
 
+# ***************************************route for Profile page******************************
 @app.route('/api/profile',methods=['POST'])
 def profile():
     alluser = mongo.db.admins
