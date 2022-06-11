@@ -1,1 +1,1 @@
-web: gunicorn server.flaskapp.app:app
+web: gunicorn main:app
