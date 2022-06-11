@@ -10,7 +10,7 @@ server = smtplib.SMTP('smtp.gmail.com',587)
 
 server.starttls()
 
-password = os.getenv("EMAIL_PASSWORD","root")
+password = os.getenv("EMAIL_PASSWORD")
 server.login('ayushranamini2022@gmail.com',password)
 
 class gotp:

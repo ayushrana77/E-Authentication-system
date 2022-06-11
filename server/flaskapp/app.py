@@ -17,7 +17,7 @@ jwt = JWTManager(app)
 CORS(app)
 
 
-password = os.environ.get("MONGODB_PASSWORD","root")
+password = os.getenv("MONGODB_PASSWORD")
 app.config['MONGO_URI'] = 'mongodb+srv://admin-ayush:'+password+'@e-authaction.ef4y4.mongodb.net/data?retryWrites=true&w=majority'
 mongo = PyMongo(app)
 
