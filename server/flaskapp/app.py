@@ -33,6 +33,7 @@ class gotp:
     def getotp(self,email,newUser):
         if newUser:
             self.genrate(email)
+        print(self.num)
         return self.num
 
 o1 = gotp()
