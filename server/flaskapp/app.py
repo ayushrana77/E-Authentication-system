@@ -26,6 +26,7 @@ class gotp:
         self.num = 0
 
     def genrate(self,email):
+        # to generated the randon 6 digit number for otp
         self.num = random.randint(100000, 999999)
         server.sendmail('ayushranamini2022@gmail.com',email,str(self.num))
         print("Mail send")
@@ -33,7 +34,6 @@ class gotp:
     def getotp(self,email,newUser):
         if newUser:
             self.genrate(email)
-        print(self.num)
         return self.num
 
 o1 = gotp()
@@ -50,6 +50,14 @@ mongo = PyMongo(app)
 
 app.secret_key = 'secret key'
 app.config['JWT_SECRET_KEY'] = 'this-is-secert-key'
+
+# **************************************errorHandle*****************************************
+
+@app.errorhandler(404)
+def not_found(e):
+    return send_from_directory(app.static_folder, 'index.html')
+
+
 
 # *************************************route for fornt page connect with front-end**********
 
