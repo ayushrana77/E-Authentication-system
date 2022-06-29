@@ -8,4 +8,4 @@ incorrect OTP, it will not authenticate the user. it will
 show the profile when the user register. Data will be
 stored in the NoSQL database MongoDB.for backend I
 used a python flask to create API.
-link heroku:https://dashboard.heroku.com/apps/vast-shelf-17321
+link heroku:https://vast-shelf-17321.herokuapp.com/
